@@ -46,7 +46,7 @@ public class CalcScore {
 					//System.out.println(sumV);
 					avgV = (double)sumV / scores.length;
 	//				System.out.println("평균 점수 : " + avgV);
-					System.out.printf("평균 점수 : %.2f", avgV);
+					System.out.printf("평균 점수 : %.2f\n", avgV);
 					System.out.println("최고 점수 : " + maxV);
 				}else if(selectNo == 5) {
 					run = false;
