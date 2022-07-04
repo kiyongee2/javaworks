@@ -16,6 +16,22 @@ public class Test6_4 {
 		}else {
 			System.out.println("id 또는 passowrd가 일치하지 않습니다.");
 		}
-	}
-
+		
+		//4.
+		Printer printer = new Printer();
+		printer.println(10);
+		printer.println(true);
+		printer.println(5.7);
+		printer.println("홍길동");
+		
+	}//main 닫기
 }
+
+
+
+
+
+
+
+
+
