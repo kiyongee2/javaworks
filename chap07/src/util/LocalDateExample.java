@@ -3,6 +3,7 @@ package util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class LocalDateExample {
@@ -16,7 +17,8 @@ public class LocalDateExample {
 		LocalTime localTime = LocalTime.now(); //대한민국 표준시간
 		System.out.println(localTime);     
 		
-		LocalDateTime now = LocalDateTime.now();  //대한민국 표준 날짜/시간
+		//LocalDateTime now = LocalDateTime.now();  //대한민국 표준 날짜/시간
+		LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 		System.out.println(now);
 		
 		//날짜 / 시간 형식 설정
