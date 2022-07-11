@@ -32,17 +32,25 @@ public class PersonMain {
 		
 		dao.deletePerson(deleteOne);
 		
+		//특정한 1명 조회
+		Person selectOne = dao.getPerson("cloud");
+		printPerson(selectOne);
+		System.out.println("=========================");
+		
 		//전체 조회
 		personList = dao.getPersonList();
 		
 		for(int i=0; i<personList.size(); i++) {
 			Person person = personList.get(i);
-			System.out.println("아이디: " + person.getUserId());
-			System.out.println("비밀번호: " + person.getUserPw());
-			System.out.println("이름: " + person.getName());
-			System.out.println("나이: " + person.getAge());
+			printPerson(person);
 		}
 		
+	}//main() 닫기
+	
+	public static void printPerson(Person person) {
+		System.out.println("아이디: " + person.getUserId());
+		System.out.println("비밀번호: " + person.getUserPw());
+		System.out.println("이름: " + person.getName());
+		System.out.println("나이: " + person.getAge());
 	}
-
 }
