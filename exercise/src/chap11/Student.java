@@ -1,17 +1,19 @@
-package object;
+package chap11;
 
 public class Student {
-
 	private String studentNum;  //학번
 	
 	public Student(String studentNum) {
 		this.studentNum = studentNum;
 	}
 	
+	public String getStudentNum() {
+		return studentNum;
+	}
+
 	@Override
 	public int hashCode() {
-		//studentNum의 해시코드 반환
-		return studentNum.hashCode();
+		return studentNum.hashCode();  
 	}
 
 	@Override
