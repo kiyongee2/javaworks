@@ -23,7 +23,7 @@ public class PersonDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, person.getUserId());  //입력된 아이디 가져와서 sql에 세팅
-			pstmt.setString(2, person.getUserPw());
+			pstmt.setString(2, person.getUserPw());  //문자는 setString, 숫자는 setInt
 			pstmt.setString(3, person.getName());
 			pstmt.setInt(4, person.getAge());
 			pstmt.executeUpdate();  //db에 저장
@@ -60,15 +60,38 @@ public class PersonDAO {
 		return personList;
 	}
 	
-	
-	
-	
 	//자료 수정
-	
-	
+	public void updatePerson(Person person) {
+		conn = JDBCUtil.getConnection();
+		String sql = "UPDATE person SET userpw = ?, name = ?, age = ?  WHERE userid = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, person.getUserPw()); //수정 자료를 db의 userpw에 저장
+			pstmt.setString(2, person.getName());
+			pstmt.setInt(3, person.getAge());
+			pstmt.setString(4, person.getUserId());
+			pstmt.executeUpdate();  //db에 저장
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt);
+		}
+	}
 	
 	//자료 삭제
-	
+	public void deletePerson(Person person) {
+		conn = JDBCUtil.getConnection();
+		String sql = "DELETE FROM person WHERE userid = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, person.getUserId()); //입력된 userid 저장
+			pstmt.executeUpdate(); //db에 저장
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt);
+		}
+	}
 	
 	
 }

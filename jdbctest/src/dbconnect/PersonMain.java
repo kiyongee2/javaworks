@@ -10,12 +10,27 @@ public class PersonMain {
 		
 		//자료 삽입
 		/*Person p1 = new Person();
-		p1.setUserId("today");
-		p1.setUserPw("today11");
-		p1.setName("투데이");
-		p1.setAge(15);
+		p1.setUserId("sky");
+		p1.setUserPw("sky11");
+		p1.setName("하늘");
+		p1.setAge(21);
 		
 		dao.insertPerson(p1);*/
+		
+		//자료 수정
+		Person p2 = new Person();
+		p2.setUserId("today");     //아이디 변경 불가(기본키)
+		p2.setUserPw("today11");   //비밀번호 수정
+		p2.setName("오늘");      //이름 수정
+		p2.setAge(35);
+		
+		dao.updatePerson(p2);  //자료 수정 메소드 호출
+		
+		//자료 삭제
+		Person deleteOne = new Person();
+		deleteOne.setUserId("sky");
+		
+		dao.deletePerson(deleteOne);
 		
 		//전체 조회
 		personList = dao.getPersonList();
