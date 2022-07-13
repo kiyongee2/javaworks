@@ -1,17 +1,17 @@
-package collection.set;
+package chap13;
 
 public class Student {
-	String name;
-	int age;
+	public int studentNum;
+	public String name;
 	
-	public Student(String name, int age) {
+	public Student(int studentNum, String name) {
+		this.studentNum = studentNum;
 		this.name = name;
-		this.age = age;
 	}
 
 	@Override
 	public int hashCode() {
-		return name.hashCode();
+		return studentNum;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class Student {
 		if(obj instanceof Student) {
 			Student std = (Student)obj;
 			//name 비교해도 가능 - hashCode() 이므로..
-			if((std.name.equals(name)) && (std.age==age)) {
+			if(std.studentNum == studentNum) {
 				return true;
 			}
 		}
