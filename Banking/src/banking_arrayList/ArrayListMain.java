@@ -1,10 +1,11 @@
-package banking;
+package banking_arrayList;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class ArrayListMain {
 	//배열의 크기가 100인 Account 형 배열 선언
-	private static Account[] accountArray = new Account[100];
+	private static ArrayList<Account> accountArrayList = new ArrayList<>();
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -56,13 +57,8 @@ public class Main {
 					}else {
 						//계좌 객체 생성
 						Account newAccount = new Account(ano, owner, balance);
-						for(int i=0; i<accountArray.length; i++) {
-							if(accountArray[i] == null) {  //배열의 공간이 null인 경우
-								accountArray[i] = newAccount;  //계좌를 배열에 저장
-								System.out.println("결과: 계좌가 생성되었습니다.");
-								break;
-							}
-						}
+						accountArrayList.add(newAccount);
+						System.out.println("결과: 계좌가 생성되었습니다.");
 						break;
 					}
 				}//안쪽 while
@@ -76,13 +72,11 @@ public class Main {
 		System.out.println("계좌 목록");
 		System.out.println("-------------------------------------------");
 		
-		for(int i=0; i<accountArray.length; i++) {
-			Account account = accountArray[i];  //배열에 저장된 account를 반환
-			if(account != null) {
-				System.out.print("계좌 번호: " + account.getAno() + "\t");
-				System.out.print("계좌주: " + account.getOwner() + "\t");
-				System.out.println("잔액: " + account.getBalance() + "\t");
-			}
+		for(int i=0; i<accountArrayList.size(); i++) {
+			Account account = accountArrayList.get(i);  //배열에 저장된 account를 반환
+			System.out.print("계좌 번호: " + account.getAno() + "\t");
+			System.out.print("계좌주: " + account.getOwner() + "\t");
+			System.out.println("잔액: " + account.getBalance());
 		}
 	}
 
@@ -147,18 +141,15 @@ public class Main {
 	
 	private static Account findAccount(String ano) {
 		Account account = null;
-		for(int i=0; i<accountArray.length; i++) {
-			if(accountArray[i] != null) {
-				String dbAno = accountArray[i].getAno(); //저장된 계좌를 가져와서
-				if(dbAno.equals(ano)) {   //이미 저장된 계좌와 새로 입력한 계좌가 일치한다면
-					account = accountArray[i];
-					break;
-				}
+		for(int i=0; i<accountArrayList.size(); i++) {
+			String dbAno = accountArrayList.get(i).getAno(); //저장된 계좌를 가져와서
+			if(dbAno.equals(ano)) {   //이미 저장된 계좌와 새로 입력한 계좌가 일치한다면
+				account = accountArrayList.get(i);
+				break;
 			}
 		}
 		return account;
 	}
-
 }
 
 
