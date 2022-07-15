@@ -93,10 +93,155 @@ public class AccountDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
 		}
 		return accountList;
 	}
 	
+	//입금
+	public void deposit() {
+		System.out.println("-------------------------------------------");
+		System.out.println("예금");
+		System.out.println("-------------------------------------------");
+		
+		while(true) {
+			System.out.print("계좌 번호: ");
+			String ano = scanner.next();
+			//계좌가 없습니다. 다시 입력하세요
+			if(findAccount(ano) == null) { //검색 계좌가 없으면
+		    	System.out.println("계좌가 없습니다. 다시 입력하세요");	
+		    }else {
+			    Account account = findAccount(ano);  //검색된 계좌 반환
+				while(true) {
+					System.out.print("입금액: ");
+					int money = scanner.nextInt();
+					
+					String owner = account.getOwner();
+					int balance = account.getBalance() + money;
+					if(money < 0) {
+						System.out.println("음수로 입력할 수 없습니다. 다시 입력하세요");
+					}else {
+						try {
+							conn = JDBCUtil.getConnection();
+							String sql = "UPDATE account SET owner=?, balance=? WHERE ano=?";
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, owner);
+							pstmt.setInt(2, balance);
+							pstmt.setString(3, ano);
+							pstmt.executeUpdate();
+							System.out.printf("%,d원 정상 입금되었습니다.\n", money);
+							break;
+						} catch (SQLException e) {
+							e.printStackTrace();
+						} finally {
+							JDBCUtil.close(conn, pstmt);
+						}
+					}
+				}//안쪽 while 닫기
+				break;
+		    }
+		}//바깥 while 닫기
+	}
+	
+	//출금
+	public void withdraw() {
+		System.out.println("--------------------------");
+		System.out.println("출금");
+		System.out.println("--------------------------");
+		
+		while(true) {
+			System.out.println("계좌 번호: ");
+			String ano = scanner.next();
+			
+			//입력한 계좌가 없을때 처리
+			if(findAccount(ano) == null) {
+				System.out.println("계좌가 없습니다. 다시 입력하세요");
+			}else {
+				Account account = findAccount(ano);
+				while(true) {
+					System.out.println("출금액: ");
+					int money = scanner.nextInt();
+					
+					String owner = account.getOwner();
+					int balance = account.getBalance() - money;  //잔액 = 잔액 - 입금액
+					if(money > account.getBalance()) {
+						System.out.println("잔액이 부족합니다. 다시 입력하세요");
+					}else if(money < 0) {
+						System.out.println("잘못된 입력입니다. 다시 입력하세요");
+					}else {
+						conn = JDBCUtil.getConnection();
+						String sql = "UPDATE account SET owner=?, balance=?  WHERE ano=? ";
+						try {
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, owner);
+							pstmt.setInt(2, balance);
+							pstmt.setString(3, ano);
+							pstmt.executeUpdate();
+							System.out.printf("%,d원 정상 출금되었습니다.\n", money);
+							break;
+						} catch (SQLException e) {
+							e.printStackTrace();
+						} finally {
+							JDBCUtil.close(conn, pstmt);
+						}
+					}
+				}
+				break;
+			}
+		}
+	}
+	
+	public void viewAccount() {
+		System.out.println("-------------------------------------------");
+		System.out.println("계좌 검색");
+		System.out.println("-------------------------------------------");
+		
+		while(true) {
+			System.out.print("계좌 번호: ");
+			String ano = scanner.next();
+			
+			if(findAccount(ano) == null) {
+				System.out.println("계좌가 없습니다. 다시 입력하세요");
+			}else {
+				Account account = findAccount(ano);  //검색된 계좌
+				System.out.print("계좌번호: " + account.getAno() + "\t");
+				System.out.print("계좌주: " + account.getOwner() + "\t");
+				System.out.println("잔액: " + account.getBalance());
+				break;
+			}
+		}
+	}
+	
+	//계좌 삭제
+	public void removeAccount() {
+		System.out.println("-------------------------------------------");
+		System.out.println("계좌 삭제");
+		System.out.println("-------------------------------------------");
+		
+		while(true) {
+			System.out.print("계좌 번호: ");
+			String ano = scanner.next();
+			
+			if(findAccount(ano) == null) {
+				System.out.println("계좌가 없습니다. 다시 입력하세요");
+			}else {
+				conn = JDBCUtil.getConnection();
+				String sql = "DELETE FROM account WHERE ano = ?";
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, ano);
+					pstmt.executeUpdate();
+					System.out.println("결과 : 계좌가 삭제되었습니다.");
+					break;
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					JDBCUtil.close(conn, pstmt);
+				}		
+			}
+		}
+	}
 	
 	//계좌 찾기
 	private Account findAccount(String ano) {

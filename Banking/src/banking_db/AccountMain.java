@@ -1,6 +1,5 @@
 package banking_db;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AccountMain {
@@ -23,13 +22,13 @@ public class AccountMain {
 			}else if(selectNo.equals("2")) {
 				dao.getAccountList();    //계좌 목록
 			}else if(selectNo.equals("3")) {
-				//deposit();        //입금
+				dao.deposit();        //입금
 			}else if(selectNo.equals("4")) {
-				//withdraw();       //출금
+				dao.withdraw();       //출금
 			}else if(selectNo.equals("5")) {
-				//viewAccount();    //계좌 검색
+				dao.viewAccount();    //계좌 검색
 			}else if(selectNo.equals("6")) {
-				//removeAccount();  //계좌 삭제
+				dao.removeAccount();  //계좌 삭제
 			}else if(selectNo.equals("7")) {
 				run = false;      //종료
 			}else {
